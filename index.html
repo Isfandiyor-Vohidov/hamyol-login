@@ -1,0 +1,31 @@
+<!doctype html>
+<!-- Переходник для входа через Google (server/login.js). Лежит на GitHub Pages по постоянному адресу —
+     его и указываем в Google Cloud как «Authorized redirect URI». Google возвращает сюда, а страница сразу
+     пересылает на текущий адрес сервера Hamyol (он записан в параметре state; адрес туннеля меняется).
+     Ничего не хранит и никуда больше не ходит. Подделать вход нельзя: state подписан сервером и проверяется там. -->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Hamyol — вход</title>
+<style>body{font:18px/1.5 system-ui,sans-serif;margin:0;min-height:100vh;display:grid;place-items:center;background:#0b1f3a;color:#fff;text-align:center;padding:24px}</style>
+</head>
+<body>
+<p id="m">Возвращаем в Hamyol…</p>
+<script>
+(function () {
+  // Куда можно пересылать: только адреса туннелей и свой домен. Свой домен — добавьте в список
+  var ALLOWED = /^https:\/\/([a-z0-9-]+\.trycloudflare\.com|[a-z0-9-]+\.ngrok-free\.(dev|app)|(www\.)?hamroh\.app|(www\.)?hamyol\.uz)$/;
+  var q = new URLSearchParams(location.search), state = q.get("state") || "", srv = "";
+  try {
+    var p = state.split(".")[0].replace(/-/g, "+").replace(/_/g, "/");
+    srv = JSON.parse(decodeURIComponent(escape(atob(p + "===".slice((p.length + 3) % 4))))).s || "";
+  } catch (e) { /* не наш state */ }
+  if (!ALLOWED.test(srv)) { document.getElementById("m").textContent = "Не получилось войти. Попробуйте ещё раз в приложении Hamyol."; return; }
+  location.replace(srv + "/api/auth/google/cb" + location.search);
+})();
+</script>
+</body>
+</html>
