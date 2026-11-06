@@ -17,7 +17,7 @@
 <script>
 (function () {
   // Куда можно пересылать: только адреса туннелей и свой домен. Свой домен — добавьте в список
-  var ALLOWED = /^https:\/\/([a-z0-9-]+\.trycloudflare\.com|[a-z0-9-]+\.ngrok-free\.(dev|app)|[a-z0-9-]+\.duckdns\.org|(www\.)?hamroh\.app|(www\.)?hamyol\.uz)$/;
+  var ALLOWED = /^https:\/\/([a-z0-9-]+\.trycloudflare\.com|[a-z0-9-]+\.ngrok-free\.(dev|app)|[a-z0-9-]+\.duckdns\.org|(www\.)?hamroh\.app|(www\.)?hamyol\.uz...(www\.)?hamyol\.uz|([a-z0-9-]+\.)?safario\.uz|13-211-35-161\.sslip\.io)$/;
   var q = new URLSearchParams(location.search), state = q.get("state") || "", srv = "";
   try {
     var p = state.split(".")[0].replace(/-/g, "+").replace(/_/g, "/");
